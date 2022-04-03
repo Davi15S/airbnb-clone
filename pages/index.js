@@ -10,7 +10,7 @@ export default function Home({ exploreData, cardsData }) {
     <div>
 
       {/* Header */}
-      <Header />
+      <Header/>
 
       {/* Banner */}
       <Banner />
