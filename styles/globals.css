@@ -2,8 +2,54 @@
 @tailwind components;
 @tailwind utilities;
 
-@layer components {
-    .button {
-        @apply px-4 py-2 border rounded-full cursor-pointer hover:shadow-lg active:scale-95 transition-all duration-200 ease-out active:bg-gray-100
-    }
+:root {
+    --navbarItemColor: rgb(187, 187, 187);
 }
+
+@layer components {
+  .button {
+    @apply px-4 py-2 border rounded-full cursor-pointer hover:shadow-lg active:scale-95 transition-all duration-200 ease-out active:bg-gray-100;
+  }
+}
+
+.navbarItem {
+  position: relative;
+  padding-bottom: 7px;
+}
+
+.navbarItem::after {
+  position: absolute;
+  content: "";
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  border-bottom: 2px solid var(--navbarItemColor);
+  transform: scale(0, 1);
+  transition: all 300ms;
+}
+
+.navbarItem:hover::after {
+  transform: scale(0.1, 1);
+}
+
+.navbarItem:hover {
+    color: var(--navbarItemColor);
+}
+
+.active {
+  position: relative;
+  padding-bottom: 7px;
+}
+
+.active::after {
+    position: absolute;
+    content: "";
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    border-bottom: 2px solid var(--navbarItemColor);
+    transform: scale(0.25, 1);
+    transition: all 300ms;
+  }
