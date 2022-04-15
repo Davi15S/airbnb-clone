@@ -47,7 +47,7 @@ function Navbar() {
     }
 
     return (
-        <div className={`bg-black p-4 px-6 fixed w-full md:px-10 xl:px-20 md:py-4 ${mobileNavbarActive && navbarScroll && "bg-white"} transition-colors duration-300 z-50`}>
+        <div className={`bg-black p-4 px-6 fixed w-full md:px-10 xl:px-20 2xl:px-40 md:py-4 ${mobileNavbarActive && navbarScroll && "bg-white"} transition-colors duration-300 z-50`}>
             <div className={`bg-white text-black flex items-center justify-center font-medium rounded-full cursor-pointer ${navbarScroll && "bg-[#f7f7f7]"} transition-all p-3 duration-500 md:hidden`}>
                 <span><SearchIcon className='h-5 px-2 text-[#ff385c]' /></span>Kam se chystáš?
             </div>
