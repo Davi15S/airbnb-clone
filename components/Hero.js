@@ -23,7 +23,7 @@ function Hero() {
                     <Image src={heroDesktop} objectFit="cover" layout='fill' className='rounded-lg hidden md:flex' />
                 </div>
                 <div className='bottom-16 text-center absolute'>
-                    <p className='text-white font-semibold text-[26px] sm:text-3xl mb-10'>Vydej se na cestu do neznáma</p>
+                    <p className='text-white font-semibold text-[26px] sm:text-3xl mb-10 md:text-4xl xl:text-5xl'>Vydej se na cestu do neznáma</p>
                     <span className='bg-white px-5 py-3 rounded-full cursor-pointer hover:bg-gray-200 transition-colors duration-300'>
                         <button className='font-bold text-sm text-transparent bg-clip-text bg-gradient-to-tr from-[#73019b] to-[#d400a6]'>Jsem flexibilní</button>
                     </span>
