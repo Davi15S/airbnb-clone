@@ -73,10 +73,10 @@ function Navbar() {
                         <motion.div
                             key={"navbarSearchBar"}
                             initial={{ opacity: "0%", }}
-                            animate={{ opacity: "100%", transition: {delay: 0.1} }}
+                            animate={{ opacity: "100%", transition: {delay: 0.15} }}
                             exit={{ opacity: "0%", }}
-                            transition={{ duration: 0.2, ease: "easeOut" }}
-                            className='border cursor-pointer w-72 flex justify-between border-gray-300 rounded-full items-center px-2 py-2 absolute left-[90px] shadow-lg md:left-1/2 md:-translate-x-1/2 bg-white'>
+                            transition={{ duration: 0.1, ease: "easeOut" }}
+                            className='border cursor-pointer w-72 flex justify-between border-gray-300 rounded-full items-center px-2 py-2 absolute left-[90px] shadow-lg lg:left-1/2 lg:-translate-x-1/2 bg-white'>
                             <p className='pl-4 font-semibold text-[#525252] text-sm'>Začni vyhledávat</p>
                             <SearchIcon className='h-8 p-2 text-white bg-[#e41d59] rounded-full' />
                         </motion.div>
@@ -151,14 +151,14 @@ function Ubytovani({ activeNavbar, zazitky }) {
                     initial={{ opacity: "0%", marginTop: -50, }}
                     animate={{ opacity: "100%", marginTop: 24, }}
                     exit={{ opacity: "0%", marginTop: -50, }}
-                    transition={{ duration: 0.5, ease: "easeOut" }}
+                    transition={{ duration: 0.3, ease: "easeOut" }}
                     className={`md:flex hidden justify-center relative left-1/2 -translate-x-1/2`}>
                     <motion.div
                         key={"searchBarInside"}
                         initial={{ width: "0%", opacity: "0%" }}
                         animate={{ width: "100%", opacity: "100%" }}
                         exit={{ width: "0%", opacity: "0%" }}
-                        transition={{ duration: 0.5, ease: "easeOut" }}
+                        transition={{ duration: 0.3, ease: "easeOut" }}
                         className='w-full bg-white flex rounded-full max-w-4xl border border-gray-300'>
                         {!zazitky && (
                             <div className='flex w-full'>
