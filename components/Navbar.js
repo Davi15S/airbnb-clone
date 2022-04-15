@@ -21,13 +21,17 @@ function Navbar() {
             }
         };
 
+        const handleWindowSize = () => {
+            if (size.width >= 768) {
+                setMobileNavbarActive(false)
+            }
+            else {
+                setMobileNavbarActive(true)
+            }
+        }
+
         handleScroll();
-        if (size.width >= 768) {
-            setMobileNavbarActive(false)
-        }
-        else {
-            setMobileNavbarActive(true)
-        }
+        handleWindowSize();
 
         window.addEventListener("scroll", handleScroll);
         return () => {
@@ -64,6 +68,20 @@ function Navbar() {
                     <div className={`font-bold text-2xl ${!navbarScroll ? "text-white" : "text-[#e0565b]"} hidden xl:block`}>airbnb</div>
                 </div>
                 <NavbarItems activeNavbarItem={activeNavbarItem} handleClick={handleClick} activeScroll={navbarScroll} style="hidden lg:flex absolute left-1/2 -translate-x-1/2 mt-1" />
+                <AnimatePresence>
+                    {navbarScroll && (
+                        <motion.div
+                            key={"navbarSearchBar"}
+                            initial={{ opacity: "0%", }}
+                            animate={{ opacity: "100%", transition: {delay: 0.1} }}
+                            exit={{ opacity: "0%", }}
+                            transition={{ duration: 0.2, ease: "easeOut" }}
+                            className='border cursor-pointer w-72 flex justify-between border-gray-300 rounded-full items-center px-2 py-2 absolute left-[90px] shadow-lg md:left-1/2 md:-translate-x-1/2 bg-white'>
+                            <p className='pl-4 font-semibold text-[#525252] text-sm'>Začni vyhledávat</p>
+                            <SearchIcon className='h-8 p-2 text-white bg-[#e41d59] rounded-full' />
+                        </motion.div>
+                    )}
+                </AnimatePresence>
                 <div className='flex items-center space-x-3'>
                     <div className='flex items-center -space-x-1'>
                         <p className={`font-semibold cursor-pointer ${!navbarScroll ? "hover:bg-[#262626]" : "hover:bg-[#f7f7f7]"} py-3 px-4 rounded-full`}>Stát se hostitelem</p>
@@ -98,51 +116,96 @@ function Navbar() {
             {/* <div className='absolute bg-white w-full h-44 opacity-40 left-0 top-0' /> */}
 
 
-            <Location activeNavbar={navbarScroll} />
+            <Ubytovani activeNavbar={navbarScroll} zazitky={activeNavbarItem[1]} />
         </div>
     )
 }
 
 function NavbarItems({ activeNavbarItem, handleClick, activeScroll, style }) {
     return (
-        <div className={`space-x-5 text-white justify-center hidden ${!activeScroll ? style : "hidden"}`}>
-            <p id={0} onClick={handleClick} className={`cursor-pointer transition-colors duration-300 ${activeNavbarItem[0] ? "active" : "navbarItem"}`}>Ubytování</p>
-            <p id={1} onClick={handleClick} className={`cursor-pointer transition-colors duration-300 ${activeNavbarItem[1] ? "active" : "navbarItem"}`}>Zážitky</p>
-            <p id={2} onClick={handleClick} className={`cursor-pointer transition-colors duration-300 ${activeNavbarItem[2] ? "active" : "navbarItem"}`}>Online zážitky</p>
-        </div>
+        <AnimatePresence>
+            {!activeScroll && (
+                <motion.div
+                    key={"navbarMenu"}
+                    initial={{ opacity: "0%", marginTop: -100, }}
+                    animate={{ opacity: "100%", marginTop: 0, }}
+                    exit={{ opacity: "0%", marginTop: -100, }}
+                    transition={{ duration: 0.2, ease: "easeOut" }}
+                    className={`space-x-5 text-white justify-center hidden ${style}`}>
+                    <p id={0} onClick={handleClick} className={`cursor-pointer transition-colors duration-300 ${activeNavbarItem[0] ? "active" : "navbarItem"}`}>Ubytování</p>
+                    <p id={1} onClick={handleClick} className={`cursor-pointer transition-colors duration-300 ${activeNavbarItem[1] ? "active" : "navbarItem"}`}>Zážitky</p>
+                    <p id={2} onClick={handleClick} className={`cursor-pointer transition-colors duration-300 ${activeNavbarItem[2] ? "active" : "navbarItem"}`}>Online zážitky</p>
+                </motion.div>
+            )}
+        </AnimatePresence>
     )
 }
 
-function Location({ activeNavbar }) {
+function Ubytovani({ activeNavbar, zazitky }) {
+    console.log(zazitky);
     return (
-        <div className={`${!activeNavbar ? "md:flex" : "hidden"} justify-center hidden mt-6`}>
-            <div className='w-full bg-white flex rounded-full max-w-4xl border border-gray-300'>
-                <div className='flex-grow flex flex-col justify-center cursor-pointer hover:bg-[#ebebeb] rounded-full pl-6 overflow-x-hidden'>
-                    <p className='text-xs font-bold'>Lokalita</p>
-                    <p className="whitespace-nowrap text-sm text-[#717171]">Kam se chystáš?</p>
-                </div>
-                <div className='h-[60%] w-[0.05rem] bg-[#ebebeb] flex self-center' />
-                <div className='cursor-pointer hover:bg-[#ebebeb] flex flex-col justify-center rounded-full pl-6 flex-grow-[0.5]'>
-                    <p className='text-xs font-bold'>Příjezd</p>
-                    <p className='whitespace-nowrap text-sm text-[#717171]'>Přidat termín</p>
-                </div>
-                <div className='h-[60%] w-[0.05rem] bg-[#ebebeb] flex self-center' />
-                <div className='cursor-pointer hover:bg-[#ebebeb] flex flex-col justify-center rounded-full pl-6 flex-grow-[0.5]'>
-                    <p className='text-xs font-bold'>Příjezd</p>
-                    <p className='whitespace-nowrap text-sm text-[#717171]'>Přidat termín</p>
-                </div>
-                <div className='h-[60%] w-[0.05rem] bg-[#ebebeb] flex self-center' />
-                <div className='flex items-center cursor-pointer hover:bg-[#ebebeb] rounded-full flex-grow-[0.7] justify-between pl-6 p-2'>
-                    <div>
-                        <p className='text-xs font-bold'>Hosté</p>
-                        <p className='whitespace-nowrap text-sm text-[#717171]'>Přidat termín</p>
-                    </div>
-                    <SearchIcon className='h-11 p-3 text-white bg-[#e41d59] rounded-full' />
-                </div>
-            </div>
-        </div>
+        <AnimatePresence>
+            {!activeNavbar && (
+                <motion.div
+                    key={"searchBar"}
+                    initial={{ opacity: "0%", marginTop: -50, }}
+                    animate={{ opacity: "100%", marginTop: 24, }}
+                    exit={{ opacity: "0%", marginTop: -50, }}
+                    transition={{ duration: 0.5, ease: "easeOut" }}
+                    className={`md:flex hidden justify-center relative left-1/2 -translate-x-1/2`}>
+                    <motion.div
+                        key={"searchBarInside"}
+                        initial={{ width: "0%", opacity: "0%" }}
+                        animate={{ width: "100%", opacity: "100%" }}
+                        exit={{ width: "0%", opacity: "0%" }}
+                        transition={{ duration: 0.5, ease: "easeOut" }}
+                        className='w-full bg-white flex rounded-full max-w-4xl border border-gray-300'>
+                        {!zazitky && (
+                            <div className='flex w-full'>
+                                <div className='flex-grow flex flex-col justify-center cursor-pointer hover:bg-[#ebebeb] rounded-full pl-6 overflow-x-hidden'>
+                                    <p className='text-xs font-bold'>Lokalita</p>
+                                    <p className="whitespace-nowrap text-sm text-[#717171]">Kam se chystáš?</p>
+                                </div>
+                                <div className='h-[60%] w-[0.05rem] bg-[#ebebeb] flex self-center' />
+                                <div className='cursor-pointer hover:bg-[#ebebeb] flex flex-col justify-center rounded-full pl-6 flex-grow-[0.5]'>
+                                    <p className='text-xs font-bold'>Příjezd</p>
+                                    <p className='whitespace-nowrap text-sm text-[#717171]'>Přidat termín</p>
+                                </div>
+                                <div className='h-[60%] w-[0.05rem] bg-[#ebebeb] flex self-center' />
+                                <div className='cursor-pointer hover:bg-[#ebebeb] flex flex-col justify-center rounded-full pl-6 flex-grow-[0.5]'>
+                                    <p className='text-xs font-bold'>Příjezd</p>
+                                    <p className='whitespace-nowrap text-sm text-[#717171]'>Přidat termín</p>
+                                </div>
+                                <div className='h-[60%] w-[0.05rem] bg-[#ebebeb] flex self-center' />
+                                <div className='flex items-center cursor-pointer hover:bg-[#ebebeb] rounded-full flex-grow-[0.7] justify-between pl-6 p-2'>
+                                    <div>
+                                        <p className='text-xs font-bold'>Hosté</p>
+                                        <p className='whitespace-nowrap text-sm text-[#717171]'>Přidat termín</p>
+                                    </div>
+                                    <SearchIcon className='h-11 p-3 text-white bg-[#e41d59] rounded-full' />
+                                </div>
+                            </div>
+                        )}
+                        {zazitky && (
+                            <div className='flex w-full'>
+                                <div className='flex w-1/2 flex-col justify-center cursor-pointer hover:bg-[#ebebeb] rounded-full pl-6 overflow-x-hidden'>
+                                    <p className='text-xs font-bold'>Lokalita</p>
+                                    <p className="whitespace-nowrap text-sm text-[#717171]">Kam se chystáš?</p>
+                                </div>
+                                <div className='h-[60%] w-[0.05rem] bg-[#ebebeb] flex self-center' />
+                                <div className='flex items-center cursor-pointer hover:bg-[#ebebeb] rounded-full flex-grow justify-between pl-6 p-2'>
+                                    <div>
+                                        <p className='text-xs font-bold'>Datum</p>
+                                        <p className='whitespace-nowrap text-sm text-[#717171]'>Uveď, kdy chceš vyrazit</p>
+                                    </div>
+                                    <SearchIcon className='h-11 p-3 text-white bg-[#e41d59] rounded-full' />
+                                </div>
+                            </div>
+                        )}
+                    </motion.div>
+                </motion.div>
+            )}
+        </AnimatePresence>
     )
 }
-
-
 export default Navbar
