@@ -112,13 +112,15 @@ function Navbar() {
 
                 {/* Sign In */}
                 <div
+                    ref={ref}
                     onClick={() => setsignInBar(!signInBar)}
                     className='flex items-center space-x-3 relative'>
                     <div className='flex items-center -space-x-1'>
                         <p className={`font-semibold cursor-pointer ${!navbarScroll ? "hover:bg-[#262626]" : "hover:bg-[#f7f7f7]"} py-3 px-4 rounded-full`}>Stát se hostitelem</p>
                         <GlobeAltIcon className={`h-10 cursor-pointer ${!navbarScroll ? "hover:bg-[#262626]" : "hover:bg-[#f7f7f7]"} p-2 rounded-full`} />
                     </div>
-                    <div className={`flex items-center bg-white border cursor-pointer border-gray-300 rounded-full gap-x-2 p-1 ${navbarScroll && "border-gray-300"} transition-all duration-300 relative hover:shadow-lg`}>
+                    <div
+                        className={`flex items-center bg-white border cursor-pointer border-gray-300 rounded-full gap-x-2 p-1 ${navbarScroll && "border-gray-300"} transition-all duration-300 relative hover:shadow-lg`}>
                         <MenuIcon className='h-5 text-[#595959] px-1' />
                         <div className='w-[30px] h-[30px] bg-[#717171] rounded-full flex items-center justify-center'>
                             <UserIcon className='h-5 rounded-full text-white' />
@@ -127,8 +129,7 @@ function Navbar() {
 
                     {signInBar && (
                         <div
-                            ref={ref}
-                            className='bg-white text-black absolute right-0 top-14 z-50 rounded-lg py-2'>
+                            className='bg-white text-black absolute right-0 top-14 z-50 rounded-lg py-2 border'>
                             <SignInItem txt={"Zaregistrovat se"} style="font-semibold" />
                             <SignInItem txt={"Přihlásit se"} />
                             <div className='h-[1px] my-2 w-full bg-gray-300' />
@@ -154,7 +155,7 @@ function Navbar() {
                         animate={{ height: 85, opacity: "100%" }}
                         exit={{ height: 176, opacity: "0%" }}
                         transition={{ duration: 0.3 }}
-                        className='absolute bg-white w-full h-44 opacity-40 left-0 top-0 -z-10' />
+                        className='absolute bg-white w-full h-44 opacity-40 left-0 top-0 -z-10 shadow' />
                 )}
             </AnimatePresence>
 
