@@ -12,7 +12,7 @@ function Hero() {
                     <button className='border border-white rounded-lg hover:bg-black hover:bg-opacity-40 transition-all duration-500 px-4 py-2 font-semibold text-sm'>Další informace</button>
                 </div>
             </div>
-            <div className='relative w-full h-0 pb-[150%] md:pb-0 md:h-[550px] xl:h-0 xl:pb-[50%] flex justify-center'>
+            <div className='relative w-full h-0 pb-[150%] md:pb-0 md:h-[550px] xl:h-0 xl:pb-[60%] flex justify-center'>
                 <div className='md:hidden'>
                     <Image src={hero} objectFit="contain" layout='fill' className='rounded-xl' />
                 </div>

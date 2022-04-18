@@ -1,15 +1,20 @@
-import React, { useEffect, useState } from 'react'
-import { GlobeAltIcon, MenuIcon, SearchIcon } from "@heroicons/react/solid"
+import React, { useEffect, useState, useRef } from 'react'
+import { GlobeAltIcon, MenuIcon, SearchIcon, UserIcon } from "@heroicons/react/solid"
 import Image from 'next/image';
 import { AnimatePresence, motion } from 'framer-motion';
-import useWindowSize from "../hooks/useWindowSize"
+import useWindowSize from "../../hooks/useWindowSize"
+import NavbarItems from './NavbarItems';
+import Ubytovani from './Ubytovani';
+import SignInItem from './SignInItem';
 
 function Navbar() {
     const [navbarScroll, setNavbarScroll] = useState(false)
     const [activeNavbarItem, setActiveNavbarItem] = useState([true, false, false])
     const [mobileNavbarActive, setMobileNavbarActive] = useState(true)
+    const [signInBar, setsignInBar] = useState(false)
 
     const size = useWindowSize()
+    const ref = useRef()
 
     useEffect(() => {
         const handleScroll = () => {
@@ -46,12 +51,30 @@ function Navbar() {
         setActiveNavbarItem(activateState)
     }
 
+    useEffect(() => {
+        // Set signInBar false
+        function handleClickOutside(event) {
+            if (ref.current && !ref.current.contains(event.target)) {
+                setsignInBar(false)
+            }
+        }
+        // Bind the event listener
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => {
+            // Unbind the event listener on clean up
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, [ref]);
+
     return (
         <div className={`bg-black p-4 px-6 fixed w-full md:px-10 xl:px-20 2xl:px-40 md:py-4 ${mobileNavbarActive && navbarScroll && "bg-white"} transition-colors duration-300 z-50`}>
             <div className={`bg-white text-black flex items-center justify-center font-medium rounded-full cursor-pointer ${navbarScroll && "bg-[#f7f7f7]"} transition-all p-3 duration-500 md:hidden`}>
                 <span><SearchIcon className='h-5 px-2 text-[#ff385c]' /></span>Kam se chystáš?
             </div>
             <div className={`md:flex hidden justify-between items-center ${navbarScroll ? "text-black" : "text-white"} transition-colors duration-500`}>
+
+
+                {/* Logo */}
                 <div className='flex items-center cursor-pointer space-x-3'>
                     <div className="h-8 w-8">
                         <svg
@@ -67,6 +90,9 @@ function Navbar() {
                     </div>
                     <div className={`font-bold text-2xl ${!navbarScroll ? "text-white" : "text-[#e0565b]"} hidden xl:block`}>airbnb</div>
                 </div>
+
+
+                {/* Middle */}
                 <NavbarItems activeNavbarItem={activeNavbarItem} handleClick={handleClick} activeScroll={navbarScroll} style="hidden lg:flex absolute left-1/2 -translate-x-1/2 mt-1" />
                 <AnimatePresence>
                     {navbarScroll && (
@@ -82,25 +108,44 @@ function Navbar() {
                         </motion.div>
                     )}
                 </AnimatePresence>
-                <div className='flex items-center space-x-3'>
+
+
+                {/* Sign In */}
+                <div
+                    onClick={() => setsignInBar(!signInBar)}
+                    className='flex items-center space-x-3 relative'>
                     <div className='flex items-center -space-x-1'>
                         <p className={`font-semibold cursor-pointer ${!navbarScroll ? "hover:bg-[#262626]" : "hover:bg-[#f7f7f7]"} py-3 px-4 rounded-full`}>Stát se hostitelem</p>
                         <GlobeAltIcon className={`h-10 cursor-pointer ${!navbarScroll ? "hover:bg-[#262626]" : "hover:bg-[#f7f7f7]"} p-2 rounded-full`} />
                     </div>
-                    <div className={`flex items-center bg-white border cursor-pointer border-black rounded-full gap-x-2 p-1 ${navbarScroll && "border-gray-300"} transition-all duration-300 relative hover:shadow-lg`}>
+                    <div className={`flex items-center bg-white border cursor-pointer border-gray-300 rounded-full gap-x-2 p-1 ${navbarScroll && "border-gray-300"} transition-all duration-300 relative hover:shadow-lg`}>
                         <MenuIcon className='h-5 text-[#595959] px-1' />
-                        <Image src={"https://a0.muscache.com/defaults/user_pic-50x50.png?v=3"} width={30} height={30} objectFit="contain" className='rounded-full' />
-                        <div className='absolute -top-1 -right-[0.15rem] w-[18px] h-[18px] rounded-full border border-white bg-[#ff385c] flex items-center justify-center text-white'>
-                            <div className='text-[0.6rem] font-semibold'>1</div>
+                        <div className='w-[30px] h-[30px] bg-[#717171] rounded-full flex items-center justify-center'>
+                            <UserIcon className='h-5 rounded-full text-white' />
                         </div>
                     </div>
+
+                    {signInBar && (
+                        <div
+                            ref={ref}
+                            className='bg-white text-black absolute right-0 top-14 z-50 rounded-lg py-2'>
+                            <SignInItem txt={"Zaregistrovat se"} style="font-semibold" />
+                            <SignInItem txt={"Přihlásit se"} />
+                            <div className='h-[1px] my-2 w-full bg-gray-300' />
+                            <SignInItem txt={"Buď hostitelem"} />
+                            <SignInItem txt={"Staň se hostitelem zážitku"} />
+                            <SignInItem txt={"Nápověda"} />
+                        </div>
+                    )}
                 </div>
             </div>
 
 
+            {/* Tablet responsive */}
             <NavbarItems activeNavbarItem={activeNavbarItem} handleClick={handleClick} activeScroll={navbarScroll} style="md:flex lg:hidden mt-10" />
 
 
+            {/* White background navbar animation */}
             <AnimatePresence>
                 {navbarScroll && !mobileNavbarActive && (
                     <motion.div
@@ -113,99 +158,10 @@ function Navbar() {
                 )}
             </AnimatePresence>
 
-            {/* <div className='absolute bg-white w-full h-44 opacity-40 left-0 top-0' /> */}
 
-
-            <Ubytovani activeNavbar={navbarScroll} zazitky={activeNavbarItem[1]}/>
+            {/* Date & Place picker */}
+            <Ubytovani activeNavbar={navbarScroll} zazitky={activeNavbarItem[1]} />
         </div>
-    )
-}
-
-function NavbarItems({ activeNavbarItem, handleClick, activeScroll, style }) {
-    return (
-        <AnimatePresence>
-            {!activeScroll && (
-                <motion.div
-                    key={"navbarMenu"}
-                    initial={{ opacity: "0%", marginTop: -100, }}
-                    animate={{ opacity: "100%", marginTop: 0, }}
-                    exit={{ opacity: "0%", marginTop: -100, }}
-                    transition={{ duration: 0.2, ease: "easeOut" }}
-                    className={`space-x-5 text-white justify-center hidden ${style}`}>
-                    <p id={0} onClick={handleClick} className={`cursor-pointer transition-colors duration-300 ${activeNavbarItem[0] ? "active" : "navbarItem"}`}>Ubytování</p>
-                    <p id={1} onClick={handleClick} className={`cursor-pointer transition-colors duration-300 ${activeNavbarItem[1] ? "active" : "navbarItem"}`}>Zážitky</p>
-                    <p id={2} onClick={handleClick} className={`cursor-pointer transition-colors duration-300 ${activeNavbarItem[2] ? "active" : "navbarItem"}`}>Online zážitky</p>
-                </motion.div>
-            )}
-        </AnimatePresence>
-    )
-}
-
-function Ubytovani({ activeNavbar, zazitky }) {
-    console.log(zazitky);
-    return (
-        <AnimatePresence>
-            {!activeNavbar && (
-                <motion.div
-                    key={"searchBar"}
-                    initial={{ opacity: "0%", marginTop: -50, }}
-                    animate={{ opacity: "100%", marginTop: 24, }}
-                    exit={{ opacity: "0%", marginTop: -50, }}
-                    transition={{ duration: 0.3, ease: "easeOut" }}
-                    className={`md:flex hidden justify-center relative left-1/2 -translate-x-1/2`}>
-                    <motion.div
-                        key={"searchBarInside"}
-                        initial={{ width: "0%", opacity: "0%" }}
-                        animate={{ width: "100%", opacity: "100%" }}
-                        exit={{ width: "0%", opacity: "0%" }}
-                        transition={{ duration: 0.3, ease: "easeOut" }}
-                        className='w-full bg-white flex rounded-full max-w-4xl border border-gray-300'>
-                        {!zazitky && (
-                            <div className='flex w-full'>
-                                <div className='flex-grow flex flex-col justify-center cursor-pointer hover:bg-[#ebebeb] rounded-full pl-6 overflow-x-hidden'>
-                                    <p className='text-xs font-bold'>Lokalita</p>
-                                    <p className="whitespace-nowrap text-sm text-[#717171]">Kam se chystáš?</p>
-                                </div>
-                                <div className='h-[60%] w-[0.05rem] bg-[#ebebeb] flex self-center' />
-                                <div className='cursor-pointer hover:bg-[#ebebeb] flex flex-col justify-center rounded-full pl-6 flex-grow-[0.5]'>
-                                    <p className='text-xs font-bold'>Příjezd</p>
-                                    <p className='whitespace-nowrap text-sm text-[#717171]'>Přidat termín</p>
-                                </div>
-                                <div className='h-[60%] w-[0.05rem] bg-[#ebebeb] flex self-center' />
-                                <div className='cursor-pointer hover:bg-[#ebebeb] flex flex-col justify-center rounded-full pl-6 flex-grow-[0.5]'>
-                                    <p className='text-xs font-bold'>Příjezd</p>
-                                    <p className='whitespace-nowrap text-sm text-[#717171]'>Přidat termín</p>
-                                </div>
-                                <div className='h-[60%] w-[0.05rem] bg-[#ebebeb] flex self-center' />
-                                <div className='flex items-center cursor-pointer hover:bg-[#ebebeb] rounded-full flex-grow-[0.7] justify-between pl-6 p-2'>
-                                    <div>
-                                        <p className='text-xs font-bold'>Hosté</p>
-                                        <p className='whitespace-nowrap text-sm text-[#717171]'>Přidat termín</p>
-                                    </div>
-                                    <SearchIcon className='h-11 p-3 text-white bg-[#e41d59] rounded-full' />
-                                </div>
-                            </div>
-                        )}
-                        {zazitky && (
-                            <div className='flex w-full'>
-                                <div className='flex w-1/2 flex-col justify-center cursor-pointer hover:bg-[#ebebeb] rounded-full pl-6 overflow-x-hidden'>
-                                    <p className='text-xs font-bold'>Lokalita</p>
-                                    <p className="whitespace-nowrap text-sm text-[#717171]">Kam se chystáš?</p>
-                                </div>
-                                <div className='h-[60%] w-[0.05rem] bg-[#ebebeb] flex self-center' />
-                                <div className='flex items-center cursor-pointer hover:bg-[#ebebeb] rounded-full flex-grow justify-between pl-6 p-2'>
-                                    <div>
-                                        <p className='text-xs font-bold'>Datum</p>
-                                        <p className='whitespace-nowrap text-sm text-[#717171]'>Uveď, kdy chceš vyrazit</p>
-                                    </div>
-                                    <SearchIcon className='h-11 p-3 text-white bg-[#e41d59] rounded-full' />
-                                </div>
-                            </div>
-                        )}
-                    </motion.div>
-                </motion.div>
-            )}
-        </AnimatePresence>
     )
 }
 export default Navbar

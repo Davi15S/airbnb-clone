@@ -1,6 +1,6 @@
 import Hero from "../components/Hero";
 import Inspiration from "../components/Inspiration";
-import Navbar from "../components/Navbar";
+import Navbar from "../components/Navbar/Navbar";
 
 export default function Home({ exploreData, cardsData }) {
   return (

@@ -29,7 +29,7 @@ function Card({ img, city, distance }) {
       </div>
       <div className='p-5 text-white space-y-1'>
         <p className='text-xl font-semibold xl:text-3xl'>{city}</p>
-        <p>{distance} kilometrů daleko</p>
+        <p className="text-lg">{distance} kilometrů daleko</p>
       </div>
     </div>
   )
