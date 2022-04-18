@@ -1,12 +1,9 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import hero from "../media/hero.webp"
 import Image from "next/image"
-import useWindowSize from '../hooks/useWindowSize'
 import heroDesktop from "../media/heroDesktop.webp"
 
 function Hero() {
-    const size = useWindowSize();
-
     return (
         <div className='space-y-10 md:space-y-20'>
             <div className='text-white w-full bg-[#ff385c] h-0 pb-[80%] md:pb-[30%] xl:pb-[25%] rounded-lg relative flex justify-center'>
