@@ -6,12 +6,15 @@ import useWindowSize from "../../hooks/useWindowSize"
 import NavbarItems from './NavbarItems';
 import Ubytovani from './Ubytovani';
 import SignInItem from './SignInItem';
+import { auth } from "../../firebase"
+import { signInWithPopup, GoogleAuthProvider, signOut } from "firebase/auth"
 
 function Navbar() {
     const [navbarScroll, setNavbarScroll] = useState(false)
     const [activeNavbarItem, setActiveNavbarItem] = useState([true, false, false])
     const [mobileNavbarActive, setMobileNavbarActive] = useState(true)
     const [signInBar, setsignInBar] = useState(false)
+    const [userState, setUserState] = useState({ user: null })
 
     const size = useWindowSize()
     const ref = useRef()
@@ -65,6 +68,33 @@ function Navbar() {
             document.removeEventListener("mousedown", handleClickOutside);
         };
     }, [ref]);
+
+    const signInWithGoogle = () => {
+        const provider = new GoogleAuthProvider()
+        signInWithPopup(auth, provider)
+            .then((res) => {
+                setUserState(userState => ({
+                    ...userState,
+                    user: res.user
+                }))
+            })
+            .catch((err) => {
+                console.log(err);
+            })
+    }
+
+    const signOutHandle = () => {
+        signOut(auth)
+            .then((res) => {
+                setUserState(userState => ({
+                    ...userState,
+                    user: null
+                }))
+            })
+            .catch((err) => {
+                console.log(err);
+            })
+    }
 
     return (
         <div className={`bg-black p-4 px-6 fixed w-full md:px-10 xl:px-20 2xl:px-40 md:py-4 ${mobileNavbarActive && navbarScroll && "bg-white"} transition-colors duration-300 z-50`}>
@@ -123,19 +153,40 @@ function Navbar() {
                         className={`flex items-center bg-white border cursor-pointer border-gray-300 rounded-full gap-x-2 p-1 ${navbarScroll && "border-gray-300"} transition-all duration-300 relative hover:shadow-lg`}>
                         <MenuIcon className='h-5 text-[#595959] px-1' />
                         <div className='w-[30px] h-[30px] bg-[#717171] rounded-full flex items-center justify-center'>
-                            <UserIcon className='h-5 rounded-full text-white' />
+                            {!userState.user && <UserIcon className='h-5 rounded-full text-white' />}
+                            {userState.user && <Image src={"https://a0.muscache.com/defaults/user_pic-50x50.png?v=3"} width={30} height={30} className={"rounded-full"} />}
                         </div>
                     </div>
 
                     {signInBar && (
                         <div
                             className='bg-white text-black absolute right-0 top-14 z-50 rounded-lg py-2 border'>
-                            <SignInItem txt={"Zaregistrovat se"} style="font-semibold" />
-                            <SignInItem txt={"Přihlásit se"} />
-                            <div className='h-[1px] my-2 w-full bg-gray-300' />
-                            <SignInItem txt={"Buď hostitelem"} />
-                            <SignInItem txt={"Staň se hostitelem zážitku"} />
-                            <SignInItem txt={"Nápověda"} />
+                            {!userState.user && (
+                                <div>
+                                    <SignInItem txt={"Zaregistrovat se"} style="font-semibold" onClick={signInWithGoogle} />
+                                    <SignInItem txt={"Přihlásit se"} onClick={signInWithGoogle} />
+                                    <div className='h-[1px] my-2 w-full bg-gray-300' />
+                                    <SignInItem txt={"Buď hostitelem"} />
+                                    <SignInItem txt={"Staň se hostitelem zážitku"} />
+                                    <SignInItem txt={"Nápověda"} />
+                                </div>
+                            )}
+                            {userState.user && (
+                                <div>
+                                    <SignInItem txt={"Zprávy"} style="font-semibold"/>
+                                    <SignInItem txt={"Upozornění"} style="font-semibold"/>
+                                    <SignInItem txt={"Pobyty"} style="font-semibold"/>
+                                    <SignInItem txt={"Vysněné"} style="font-semibold"/>
+                                    <div className='h-[1px] my-2 w-full bg-gray-300' />
+                                    <SignInItem txt={"Buď hostitelem"} />
+                                    <SignInItem txt={"Staň se hostitelem zážitku"} />
+                                    <SignInItem txt={"Doporuč hostitele"} />
+                                    <SignInItem txt={"Účet"} />
+                                    <div className='h-[1px] my-2 w-full bg-gray-300' />
+                                    <SignInItem txt={"Nápověda"} />
+                                    <SignInItem txt={"Odhlásit se"} onClick={signOutHandle} />
+                                </div>
+                            )}
                         </div>
                     )}
                 </div>

@@ -1,7 +1,5 @@
 import React from 'react'
-import hero from "../media/hero.webp"
 import Image from "next/image"
-import heroDesktop from "../media/heroDesktop.webp"
 
 function Hero() {
     return (
@@ -14,10 +12,10 @@ function Hero() {
             </div>
             <div className='relative w-full h-0 pb-[150%] md:pb-0 md:h-[550px] xl:h-0 xl:pb-[60%] flex justify-center'>
                 <div className='md:hidden'>
-                    <Image src={hero} objectFit="contain" layout='fill' className='rounded-xl' />
+                    <Image src={"https://z1.muscache.cn/im/pictures/33fe05fc-06d3-426e-9039-cac7a2e3fef8.jpg?im_w=320"} objectFit="contain" layout='fill' className='rounded-xl' />
                 </div>
                 <div>
-                    <Image src={heroDesktop} objectFit="cover" layout='fill' className='rounded-lg hidden md:flex' />
+                    <Image src={"https://z1.muscache.cn/im/pictures/a2704500-b282-4411-a2fb-d7f80c4c72a8.jpg?im_w=1200"} objectFit="cover" layout='fill' className='rounded-lg hidden md:flex' />
                 </div>
                 <div className='bottom-16 text-center absolute'>
                     <p className='text-white font-semibold text-[26px] sm:text-3xl mb-10 md:text-4xl xl:text-5xl'>Vydej se na cestu do neznáma</p>

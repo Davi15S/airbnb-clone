@@ -1,6 +1,7 @@
 import Hero from "../components/Hero";
 import Inspiration from "../components/Inspiration";
 import Navbar from "../components/Navbar/Navbar";
+import Zazitky from "../components/Zazitky";
 
 export default function Home({ exploreData, cardsData }) {
   return (
@@ -16,6 +17,7 @@ export default function Home({ exploreData, cardsData }) {
       </main>
 
       <Inspiration />
+      <Zazitky />
     </div>
   )
 }
