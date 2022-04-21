@@ -21,50 +21,38 @@ function Ubytovani({ activeNavbar, zazitky }) {
                         className='w-full bg-white flex rounded-full max-w-4xl border border-gray-300'>
                         {!zazitky && (
                             <div className='flex w-full'>
-                                <div className='flex-grow flex flex-col justify-center cursor-pointer hover:bg-[#ebebeb] rounded-full pl-6 overflow-x-hidden'>
-                                    <p className='text-xs font-bold'>Lokalita</p>
-                                    <p className="whitespace-nowrap text-sm text-[#717171]">Kam se chystáš?</p>
-                                </div>
+                                <UbytovaniText txt1={"Lokalita"} txt2={"Kam se chystáš?"} flex_grow="flex-grow flex-col" />
                                 <div className='h-[60%] w-[0.05rem] bg-[#ebebeb] flex self-center' />
-                                <div className='cursor-pointer hover:bg-[#ebebeb] flex flex-col justify-center rounded-full pl-6 flex-grow-[0.5]'>
-                                    <p className='text-xs font-bold'>Příjezd</p>
-                                    <p className='whitespace-nowrap text-sm text-[#717171]'>Přidat termín</p>
-                                </div>
+                                <UbytovaniText txt1={"Příjezd"} txt2={"Přidat termín"} flex_grow="flex-grow-[0.5] flex-col" />
                                 <div className='h-[60%] w-[0.05rem] bg-[#ebebeb] flex self-center' />
-                                <div className='cursor-pointer hover:bg-[#ebebeb] flex flex-col justify-center rounded-full pl-6 flex-grow-[0.5]'>
-                                    <p className='text-xs font-bold'>Příjezd</p>
-                                    <p className='whitespace-nowrap text-sm text-[#717171]'>Přidat termín</p>
-                                </div>
+                                <UbytovaniText txt1={"Odjezd"} txt2={"Přidat termín"} flex_grow="flex-grow-[0.5] flex-col" />
                                 <div className='h-[60%] w-[0.05rem] bg-[#ebebeb] flex self-center' />
-                                <div className='flex items-center cursor-pointer hover:bg-[#ebebeb] rounded-full flex-grow-[0.7] justify-between pl-6 p-2'>
-                                    <div>
-                                        <p className='text-xs font-bold'>Hosté</p>
-                                        <p className='whitespace-nowrap text-sm text-[#717171]'>Přidat termín</p>
-                                    </div>
-                                    <SearchIcon className='h-11 p-3 text-white bg-[#e41d59] rounded-full' />
-                                </div>
+                                <UbytovaniText txt1={"Odjezd"} txt2={"Přidat termín"} flex_grow="flex-grow-[0.7] items-center justify-between p-2" search={<SearchIcon className='h-11 p-3 text-white bg-[#e41d59] rounded-full' />}/>
                             </div>
                         )}
                         {zazitky && (
                             <div className='flex w-full'>
-                                <div className='flex w-1/2 flex-col justify-center cursor-pointer hover:bg-[#ebebeb] rounded-full pl-6 overflow-x-hidden'>
-                                    <p className='text-xs font-bold'>Lokalita</p>
-                                    <p className="whitespace-nowrap text-sm text-[#717171]">Kam se chystáš?</p>
-                                </div>
+                                <UbytovaniText txt1={"Lokalita"} txt2={"Kam se chystáš?"} flex_grow="flex-grow flex-col" />
                                 <div className='h-[60%] w-[0.05rem] bg-[#ebebeb] flex self-center' />
-                                <div className='flex items-center cursor-pointer hover:bg-[#ebebeb] rounded-full flex-grow justify-between pl-6 p-2'>
-                                    <div>
-                                        <p className='text-xs font-bold'>Datum</p>
-                                        <p className='whitespace-nowrap text-sm text-[#717171]'>Uveď, kdy chceš vyrazit</p>
-                                    </div>
-                                    <SearchIcon className='h-11 p-3 text-white bg-[#e41d59] rounded-full' />
-                                </div>
+                                <UbytovaniText txt1={"Datum"} txt2={"Uveď, kdy chceš vyrazit"} flex_grow="flex-grow-[0.7] items-center justify-between p-2" search={<SearchIcon className='h-11 p-3 text-white bg-[#e41d59] rounded-full' />}/>
                             </div>
                         )}
                     </motion.div>
                 </motion.div>
             )}
         </AnimatePresence>
+    )
+}
+
+function UbytovaniText({ txt1, txt2, flex_grow, search }) {
+    return (
+        <div className={`flex justify-center cursor-pointer hover:bg-[#ebebeb] rounded-full pl-6 ${flex_grow}`}>
+            <div>
+                <p className='text-xs font-bold'>{txt1}</p>
+                <p className="whitespace-nowrap text-sm text-[#717171]">{txt2}</p>
+            </div>
+            {search}
+        </div>
     )
 }
 

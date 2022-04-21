@@ -55,16 +55,13 @@ function Navbar() {
     }
 
     useEffect(() => {
-        // Set signInBar false
         function handleClickOutside(event) {
             if (ref.current && !ref.current.contains(event.target)) {
                 setsignInBar(false)
             }
         }
-        // Bind the event listener
         document.addEventListener("mousedown", handleClickOutside);
         return () => {
-            // Unbind the event listener on clean up
             document.removeEventListener("mousedown", handleClickOutside);
         };
     }, [ref]);
@@ -101,7 +98,7 @@ function Navbar() {
             <div className={`bg-white text-black flex items-center justify-center font-medium rounded-full cursor-pointer ${navbarScroll && "bg-[#f7f7f7]"} transition-all p-3 duration-500 md:hidden`}>
                 <span><SearchIcon className='h-5 px-2 text-[#ff385c]' /></span>Kam se chystáš?
             </div>
-            <div className={`md:flex hidden justify-between items-center ${navbarScroll ? "text-black" : "text-white"} transition-colors duration-500`}>
+            <div className={`md:flex mb-5 lg:mb-0 hidden justify-between items-center ${navbarScroll ? "text-black" : "text-white"} transition-colors duration-500`}>
 
 
                 {/* Logo */}
@@ -194,7 +191,7 @@ function Navbar() {
 
 
             {/* Tablet responsive */}
-            <NavbarItems activeNavbarItem={activeNavbarItem} handleClick={handleClick} activeScroll={navbarScroll} style="md:flex lg:hidden mt-10" />
+            <NavbarItems activeNavbarItem={activeNavbarItem} handleClick={handleClick} activeScroll={navbarScroll} style="md:flex lg:hidden" />
 
 
             {/* White background navbar animation */}

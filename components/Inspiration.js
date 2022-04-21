@@ -3,9 +3,9 @@ import Image from "next/image"
 
 function Inspiration() {
   return (
-    <div className='space-y-7 pt-10'>
-      <h2 className='px-6 md:px-10 xl:px-20 2xl:px-40 text-[#222222] font-semibold text-2xl md:hidden xl:text-3xl'>Inspirace pro svůj další pobyt</h2>
-      <h2 className='px-6 md:px-10 xl:px-20 2xl:px-40 text-[#222222] font-semibold text-2xl hidden md:flex xl:text-3xl'>Najdi inspiraci pro svůj další pobyt</h2>
+    <div className='space-y-8 pt-10 xl:space-y-12'>
+      <h2 className='px-6 md:px-10 xl:px-20 2xl:px-40 text-[#222222] font-semibold text-2xl md:hidden xl:text-3xl 2xl:text-5xl'>Inspirace pro svůj další pobyt</h2>
+      <h2 className='px-6 md:px-10 xl:px-20 2xl:px-40 text-[#222222] font-semibold text-2xl hidden md:flex xl:text-3xl 2xl:text-5xl'>Najdi inspiraci pro svůj další pobyt</h2>
 
       <div className='gap-5 flex overflow-auto px-6 md:px-10 xl:px-20 2xl:px-40 scrollbar-hide lg:grid grid-cols-4'>
         <Card img={"https://a0.muscache.com/im/pictures/3cf8d82e-473a-4ce2-822b-ea843ff664c5.jpg?im_w=240"} city="Praha" distance="85"/>

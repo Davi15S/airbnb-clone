@@ -1,4 +1,6 @@
+import Footer from "../components/Footer";
 import Hero from "../components/Hero";
+import Hostitelstvi from "../components/Hostitelstvi";
 import Inspiration from "../components/Inspiration";
 import Navbar from "../components/Navbar/Navbar";
 import Zazitky from "../components/Zazitky";
@@ -18,6 +20,8 @@ export default function Home({ exploreData, cardsData }) {
 
       <Inspiration />
       <Zazitky />
+      <Hostitelstvi />
+      <Footer />
     </div>
   )
 }
