@@ -14,9 +14,9 @@ function Ubytovani({ activeNavbar, zazitky }) {
                     className={`md:flex hidden justify-center relative left-1/2 -translate-x-1/2`}>
                     <motion.div
                         key={"searchBarInside"}
-                        initial={{ width: "0%", opacity: "0%" }}
-                        animate={{ width: "100%", opacity: "100%" }}
-                        exit={{ width: "0%", opacity: "0%" }}
+                        initial={{ opacity: "0%", scaleX: 0 }}
+                        animate={{ opacity: "100%", scaleX: "100%" }}
+                        exit={{ opacity: "0%", scaleX: 0 }}
                         transition={{ duration: 0.3, ease: "easeOut" }}
                         className='w-full bg-white flex rounded-full max-w-4xl border border-gray-300'>
                         {!zazitky && (
@@ -27,14 +27,14 @@ function Ubytovani({ activeNavbar, zazitky }) {
                                 <div className='h-[60%] w-[0.05rem] bg-[#ebebeb] flex self-center' />
                                 <UbytovaniText txt1={"Odjezd"} txt2={"Přidat termín"} flex_grow="flex-grow-[0.5] flex-col" />
                                 <div className='h-[60%] w-[0.05rem] bg-[#ebebeb] flex self-center' />
-                                <UbytovaniText txt1={"Odjezd"} txt2={"Přidat termín"} flex_grow="flex-grow-[0.7] items-center justify-between p-2" search={<SearchIcon className='h-11 p-3 text-white bg-[#e41d59] rounded-full' />}/>
+                                <UbytovaniText txt1={"Odjezd"} txt2={"Přidat termín"} flex_grow="flex-grow-[0.7] items-center justify-between p-2" search={<SearchIcon className='h-11 p-3 text-white bg-[#e41d59] rounded-full' />} />
                             </div>
                         )}
                         {zazitky && (
                             <div className='flex w-full'>
                                 <UbytovaniText txt1={"Lokalita"} txt2={"Kam se chystáš?"} flex_grow="flex-grow flex-col" />
                                 <div className='h-[60%] w-[0.05rem] bg-[#ebebeb] flex self-center' />
-                                <UbytovaniText txt1={"Datum"} txt2={"Uveď, kdy chceš vyrazit"} flex_grow="flex-grow-[0.7] items-center justify-between p-2" search={<SearchIcon className='h-11 p-3 text-white bg-[#e41d59] rounded-full' />}/>
+                                <UbytovaniText txt1={"Datum"} txt2={"Uveď, kdy chceš vyrazit"} flex_grow="flex-grow-[0.7] items-center justify-between p-2" search={<SearchIcon className='h-11 p-3 text-white bg-[#e41d59] rounded-full' />} />
                             </div>
                         )}
                     </motion.div>
