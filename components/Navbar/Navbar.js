@@ -19,7 +19,7 @@ function Navbar() {
 
     const size = useWindowSize()
     const signInRef = useRef()
-    const searchBarRef = useRef()
+    const navbarRef = useRef()
 
     useEffect(() => {
         const handleScroll = () => {
@@ -57,6 +57,7 @@ function Navbar() {
         setActiveNavbarItem(activateState)
     }
 
+    // Menu handleClick
     useEffect(() => {
         function handleClickOutside(event) {
             if (signInRef.current && !signInRef.current.contains(event.target)) {
@@ -67,7 +68,23 @@ function Navbar() {
         return () => {
             document.removeEventListener("mousedown", handleClickOutside);
         };
-    }, [signInRef, searchBarRef]);
+    }, [signInRef]);
+
+    // Navbar handleClick
+    useEffect(() => {
+        function handleClickOutside(event) {
+            if (navbarRef.current && !navbarRef.current.contains(event.target)) {
+                setSearchBarActive(true)
+                setNavbarScroll(true)
+                console.log(navbarRef.current);
+                console.log(event.target);
+            }
+        }
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, [navbarRef]);
 
     const signInWithGoogle = () => {
         const provider = new GoogleAuthProvider()
@@ -104,7 +121,7 @@ function Navbar() {
     }
 
     return (
-        <div className={`p-4 px-6 fixed w-full md:px-10 xl:px-20 2xl:px-40 md:py-4 ${mobileNavbarActive && navbarScroll && "bg-white"} transition-colors duration-300 z-50`}>
+        <div ref={navbarRef} className={`p-4 px-6 fixed w-full md:px-10 xl:px-20 2xl:px-40 md:py-4 ${mobileNavbarActive && navbarScroll && "bg-white"} transition-colors duration-300 z-50`}>
 
             {/* Mobile Navbar */}
             <div className={`bg-white text-black flex items-center justify-center font-medium rounded-full cursor-pointer ${navbarScroll && "bg-[#f7f7f7]"} transition-all p-3 duration-500 md:hidden`}>
@@ -132,11 +149,10 @@ function Navbar() {
 
 
                 {/* Middle */}
-                <NavbarItems activeNavbarItem={activeNavbarItem} handleClick={handleClick} activeScroll={navbarScroll} style={`hidden lg:flex absolute left-1/2 -translate-x-1/2 mt-1 ${!searchBarActive && "text-black"}`} searchBarActive={searchBarActive}/>
+                <NavbarItems activeNavbarItem={activeNavbarItem} handleClick={handleClick} activeScroll={navbarScroll} style={`hidden lg:flex absolute left-1/2 -translate-x-1/2 mt-1 ${!searchBarActive && "text-black"}`} searchBarActive={searchBarActive} />
                 <AnimatePresence>
                     {navbarScroll && (
                         <motion.div
-                            ref={searchBarRef}
                             onClick={navbarSearchBar}
                             key={"navbarSearchBar"}
                             initial={{ opacity: "0%", }}
@@ -155,8 +171,8 @@ function Navbar() {
                 <div
                     className='flex items-center space-x-3 relative'>
                     <div className='flex items-center -space-x-1'>
-                        <p className={`font-semibold cursor-pointer ${!navbarScroll  && searchBarActive ? "hover:bg-[#262626]" : "hover:bg-[#f7f7f7]"} py-3 px-4 rounded-full`}>Stát se hostitelem</p>
-                        <GlobeAltIcon className={`h-10 cursor-pointer ${!navbarScroll  && searchBarActive ? "hover:bg-[#262626]" : "hover:bg-[#f7f7f7]"} p-2 rounded-full`} />
+                        <p className={`font-semibold cursor-pointer ${!navbarScroll && searchBarActive ? "hover:bg-[#262626]" : "hover:bg-[#f7f7f7]"} py-3 px-4 rounded-full`}>Stát se hostitelem</p>
+                        <GlobeAltIcon className={`h-10 cursor-pointer ${!navbarScroll && searchBarActive ? "hover:bg-[#262626]" : "hover:bg-[#f7f7f7]"} p-2 rounded-full`} />
                     </div>
                     <div
                         ref={signInRef}
@@ -205,7 +221,7 @@ function Navbar() {
 
 
             {/* Tablet responsive */}
-            <NavbarItems activeNavbarItem={activeNavbarItem} handleClick={handleClick} activeScroll={navbarScroll} style={`md:flex lg:hidden ${!searchBarActive && "text-black"}`} searchBarActive={searchBarActive}/>
+            <NavbarItems activeNavbarItem={activeNavbarItem} handleClick={handleClick} activeScroll={navbarScroll} style={`md:flex lg:hidden ${!searchBarActive && "text-black"}`} searchBarActive={searchBarActive} />
 
 
             {/* White background navbar animation */}
@@ -213,9 +229,9 @@ function Navbar() {
                 {navbarScroll && !mobileNavbarActive && (
                     <motion.div
                         key={"shrinkingNavbar"}
-                        initial={{ height: 176, opacity: "0%"}}
-                        animate={{ height: 85, opacity: "100%"}}
-                        exit={{ height: 176, opacity: "0%"}}
+                        initial={{ height: 176, opacity: "0%" }}
+                        animate={{ height: 85, opacity: "100%" }}
+                        exit={{ height: 176, opacity: "0%" }}
                         transition={{ duration: size.width < 1024 ? 0.2 : 0.3 }}
                         className='absolute bg-white w-full top-0 left-0 -z-10' />
                 )}
@@ -226,16 +242,16 @@ function Navbar() {
                 {!navbarScroll && !mobileNavbarActive && !searchBarActive && (
                     <motion.div
                         key={"shrinkingNavbar"}
-                        initial={{ height: 85,}}
-                        animate={{ height: size.width < 1024 ? 220 : 176,}}
-                        exit={{ height: 85,}}
+                        initial={{ height: 85, }}
+                        animate={{ height: size.width < 1024 ? 220 : 176, }}
+                        exit={{ height: 85, }}
                         transition={{ duration: size.width < 1024 ? 0.2 : 0.3 }}
                         className='absolute bg-white w-full top-0 left-0 -z-10' />
                 )}
             </AnimatePresence>
 
             {!searchBarActive && (
-                <div className='fixed h-full w-full left-0 bg-black -z-20 opacity-30'/>
+                <div className='fixed h-full w-full left-0 bg-black -z-20 opacity-30 pointer-events-none' />
             )}
 
             {/* Date & Place picker */}
