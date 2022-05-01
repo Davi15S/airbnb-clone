@@ -3,7 +3,8 @@
 @tailwind utilities;
 
 :root {
-    --navbarItemColor: rgb(187, 187, 187);
+  --navbarItemColor: rgb(187, 187, 187);
+  --searchBarActiveColor: rgb(27, 27, 27);
 }
 
 @layer components {
@@ -17,7 +18,8 @@
   padding-bottom: 7px;
 }
 
-.navbarItem::after {
+.navbarItem::after,
+.active::after {
   position: absolute;
   content: "";
   left: 0;
@@ -25,7 +27,6 @@
   top: 0;
   bottom: 0;
   border-bottom: 2px solid var(--navbarItemColor);
-  transform: scale(0, 1);
   transition: all 300ms;
 }
 
@@ -34,7 +35,11 @@
 }
 
 .navbarItem:hover {
-    color: var(--navbarItemColor);
+  color: var(--navbarItemColor);
+}
+
+.searchBarActive .navbarItem:hover {
+  color: var(--searchBarActiveColor);
 }
 
 .active {
@@ -43,13 +48,14 @@
 }
 
 .active::after {
-    position: absolute;
-    content: "";
-    left: 0;
-    right: 0;
-    top: 0;
-    bottom: 0;
-    border-bottom: 2px solid var(--navbarItemColor);
-    transform: scale(0.25, 1);
-    transition: all 300ms;
-  }
+  transform: scale(0.25, 1);
+}
+
+.navbarItem::after {
+  transform: scale(0, 1);
+}
+
+.searchBarActive .active::after,
+.searchBarActive .navbarItem::after {
+  border-bottom: 2px solid var(--searchBarActiveColor);
+}

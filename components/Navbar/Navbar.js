@@ -18,14 +18,14 @@ function Navbar() {
     const [searchBarActive, setSearchBarActive] = useState(true)
 
     const size = useWindowSize()
-    const ref = useRef()
+    const signInRef = useRef()
+    const searchBarRef = useRef()
 
     useEffect(() => {
         const handleScroll = () => {
             if (window.scrollY > 50) {
                 setNavbarScroll(true)
                 setSearchBarActive(true)
-                console.log(window.scrollY);
             }
             else {
                 setNavbarScroll(false)
@@ -59,17 +59,15 @@ function Navbar() {
 
     useEffect(() => {
         function handleClickOutside(event) {
-            if (ref.current && !ref.current.contains(event.target)) {
+            if (signInRef.current && !signInRef.current.contains(event.target)) {
                 setsignInBar(false)
-                console.log(ref.current);
-                console.log(event.target);
             }
         }
         document.addEventListener("mousedown", handleClickOutside);
         return () => {
             document.removeEventListener("mousedown", handleClickOutside);
         };
-    }, [ref]);
+    }, [signInRef, searchBarRef]);
 
     const signInWithGoogle = () => {
         const provider = new GoogleAuthProvider()
@@ -134,10 +132,11 @@ function Navbar() {
 
 
                 {/* Middle */}
-                <NavbarItems activeNavbarItem={activeNavbarItem} handleClick={handleClick} activeScroll={navbarScroll} style={`hidden lg:flex absolute left-1/2 -translate-x-1/2 mt-1 ${!searchBarActive && "text-black"}`} />
+                <NavbarItems activeNavbarItem={activeNavbarItem} handleClick={handleClick} activeScroll={navbarScroll} style={`hidden lg:flex absolute left-1/2 -translate-x-1/2 mt-1 ${!searchBarActive && "text-black"}`} searchBarActive={searchBarActive}/>
                 <AnimatePresence>
                     {navbarScroll && (
                         <motion.div
+                            ref={searchBarRef}
                             onClick={navbarSearchBar}
                             key={"navbarSearchBar"}
                             initial={{ opacity: "0%", }}
@@ -156,11 +155,11 @@ function Navbar() {
                 <div
                     className='flex items-center space-x-3 relative'>
                     <div className='flex items-center -space-x-1'>
-                        <p className={`font-semibold cursor-pointer ${!navbarScroll ? "hover:bg-[#262626]" : "hover:bg-[#f7f7f7]"} py-3 px-4 rounded-full`}>Stát se hostitelem</p>
-                        <GlobeAltIcon className={`h-10 cursor-pointer ${!navbarScroll ? "hover:bg-[#262626]" : "hover:bg-[#f7f7f7]"} p-2 rounded-full`} />
+                        <p className={`font-semibold cursor-pointer ${!navbarScroll  && searchBarActive ? "hover:bg-[#262626]" : "hover:bg-[#f7f7f7]"} py-3 px-4 rounded-full`}>Stát se hostitelem</p>
+                        <GlobeAltIcon className={`h-10 cursor-pointer ${!navbarScroll  && searchBarActive ? "hover:bg-[#262626]" : "hover:bg-[#f7f7f7]"} p-2 rounded-full`} />
                     </div>
                     <div
-                        ref={ref}
+                        ref={signInRef}
                         onClick={() => setsignInBar(!signInBar)}
                         className={`flex items-center bg-white border cursor-pointer border-gray-300 rounded-full gap-x-2 p-1 ${navbarScroll && "border-gray-300"} transition-all duration-300 relative hover:shadow-lg`}>
                         <MenuIcon className='h-5 text-[#595959] px-1 pointer-events-none' />
@@ -206,7 +205,7 @@ function Navbar() {
 
 
             {/* Tablet responsive */}
-            <NavbarItems activeNavbarItem={activeNavbarItem} handleClick={handleClick} activeScroll={navbarScroll} style={`md:flex lg:hidden ${!searchBarActive && "text-black"}`} />
+            <NavbarItems activeNavbarItem={activeNavbarItem} handleClick={handleClick} activeScroll={navbarScroll} style={`md:flex lg:hidden ${!searchBarActive && "text-black"}`} searchBarActive={searchBarActive}/>
 
 
             {/* White background navbar animation */}
@@ -217,22 +216,27 @@ function Navbar() {
                         initial={{ height: 176, opacity: "0%"}}
                         animate={{ height: 85, opacity: "100%"}}
                         exit={{ height: 176, opacity: "0%"}}
-                        transition={{ duration: 0.3 }}
+                        transition={{ duration: size.width < 1024 ? 0.2 : 0.3 }}
                         className='absolute bg-white w-full top-0 left-0 -z-10' />
                 )}
             </AnimatePresence>
 
+            {/* Search Bar Active */}
             <AnimatePresence>
                 {!navbarScroll && !mobileNavbarActive && !searchBarActive && (
                     <motion.div
                         key={"shrinkingNavbar"}
                         initial={{ height: 85,}}
-                        animate={{ height: 176,}}
+                        animate={{ height: size.width < 1024 ? 220 : 176,}}
                         exit={{ height: 85,}}
-                        transition={{ duration: 0.3 }}
+                        transition={{ duration: size.width < 1024 ? 0.2 : 0.3 }}
                         className='absolute bg-white w-full top-0 left-0 -z-10' />
                 )}
             </AnimatePresence>
+
+            {!searchBarActive && (
+                <div className='fixed h-full w-full left-0 bg-black -z-20 opacity-30'/>
+            )}
 
             {/* Date & Place picker */}
             <Ubytovani activeNavbar={navbarScroll} zazitky={activeNavbarItem[1]} />
